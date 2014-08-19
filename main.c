@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:00:31 2014 vincent leroy
-** Last update Tue Aug 19 15:48:57 2014 vincent leroy
+** Last update Tue Aug 19 15:58:58 2014 vincent leroy
 */
 
 #include <stdio.h>
@@ -20,6 +20,8 @@ void usage(const char *av0)
     fprintf(stderr, "\t-a           A short option with an optional argument\n");
     fprintf(stderr, "\t--list       A long option with a required argument\n");
     fprintf(stderr, "\t-h,--help    Display this help and exit\n");
+
+    exit(EX_USAGE);
 }
 
 static bool _h_arg(char *arg, void *user_data, bool short_arg)
