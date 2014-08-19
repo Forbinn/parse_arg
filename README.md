@@ -8,17 +8,29 @@ This library contains only **one** function:
 int parse_arg(int *ac, char ***av, const opts options[], opt_error *error);
 ```
 
+This function will **remove** the argument parsed **only** if no error occurred.
+Example:
+
+```c
+// l : NO_ARG
+// long_option : REQUIRED_ARG
+
+./your_program -l arg file --long_option=arg arg2
+```
+
+After the parsing you will have in the **ac** argument the value 4 and in the **av** argument the value: ["./your_program", "arg", "file", "arg2"]
+
 opts structure
 --------------
 
 The *opts* structure is used to describe the parameters expected by the program.
 It has the following field:
 
-- **short_opt** : contains the value of the short form of the option (e.g. 'h' for help option)
-- **long_opt** : contains the value of the long form of the option (e.g. 'help' for help option)
-- **has_arg** : enumeration that contains one of the three value describe after
-- **cb** : function call when the option was found in the main parameter
-- **user_data** : user data pass to the callback
+- **short_opt** : contains the value of the short form of the option (e.g. 'h' for help option).
+- **long_opt** : contains the value of the long form of the option (e.g. 'help' for help option).
+- **has_arg** : enumeration that contains one of the three value describe after.
+- **cb** : function call when the option was found in the main parameter.
+- **user_data** : user data pass to the callback.
 
 argument enumeration
 --------------------
@@ -46,6 +58,30 @@ If the callback return false then the parsing stop and the error is set to **CAL
 The first parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.
 The second parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.
 The third parameter (i.e. *short_arg*) is set to **true** if this is the short option that has triggered the call otherwise it is set to **false**.
+
+### Warning ###
+
+```c
+opts options[] = {
+    {'a', NULL, NO_ARG, &a_option, NULL},
+    {'b', NULL, OPTIONAL_ARG, &b_option, NULL},
+    {'c', NULL, OPTIONAL_ARG, &c_option, NULL},
+    {'d', NULL, REQUIRED_ARG, &d_option, NULL},
+    {'\0', NULL, NO_ARG, NULL, NULL}
+};
+
+// [1] -a -d arg -c
+// [2] -adc arg
+// [3] -bc arg
+// [4] -cb arg
+// [5] -dcb arg
+```
+
+>- **[1]**: In this case the calling order of the callback is guaranteed: *a_option* then *d_option* and *c_option*.
+>- **[2]**: In this case the calling order of the callback is **not** guaranteed.
+>- **[3]**: The argument *arg* will be give to the *c_option* callback.
+>- **[4]**: The argument *arg* will be give to the *b_option* callback.
+>- **[5]**: The argument *arg* will be give to the *d_option* callback and not to *b_option* because the *d* option **required** an argument.
 
 Error system
 ------------
@@ -85,7 +121,7 @@ bool h_option(char *arg, void *user_data, bool short_arg)
 {
     (void)arg;
     (void)short_arg;
-    
+
     usage(user_data);
     return true;
 }
@@ -94,7 +130,7 @@ bool useless_arg(char *arg, void *user_data, bool short_arg)
 {
     (void)user_data;
     (void)short_arg;
-    
+
     return strcmp(arg, "argument") == 0;
 }
 
@@ -105,10 +141,12 @@ int main(int ac, char **av)
         {'\0', "useless", REQUIRED_ARG, &useless_arg, NULL},
         {'\0', NULL, NO_ARG, NULL, NULL}
     };
-    
+
     if (parse_arg(&ac, &av, options, NULL) == -1)
         return 1;
-    
+
     return 0;
 }
 ```
+
+You can see a full example in the main.c file.
