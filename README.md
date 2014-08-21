@@ -50,14 +50,14 @@ Callback
 The callback (the **cb** field in the *opts* structure) must have the following prototype:
 
 ```c
-bool callback(char *arg, void *user_data, bool short_arg);
+bool callback(const char *option, const char *arg, void *user_data);
 ```
 
 If the callback return false then the parsing stop and the error is set to **CALLBACK_ERROR**.
 
-The first parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.
-The second parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.
-The third parameter (i.e. *short_arg*) is set to **true** if this is the short option that has triggered the call otherwise it is set to **false**.
+The first parameter (i.e. *option*) is set to the option that triggered the call of the callback
+The second parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.
+The third parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.
 
 ### Warning ###
 
