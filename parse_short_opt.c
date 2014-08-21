@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:50:33 2014 vincent leroy
-** Last update Thu Aug 21 14:04:43 2014 vincent leroy
+** Last update Thu Aug 21 15:00:55 2014 vincent leroy
 */
 
 #include <string.h>
@@ -98,10 +98,14 @@ static int _give_arg_to_opts_arg(const char *arg, struct opts_arg opts_arg[], op
 static int _call_cb(const struct opts_arg opts_arg[], opt_error *error)
 {
     int i;
+    char str[2] = {};
 
     for (i = 0; opts_arg[i].opt != NULL; ++i)
-        if (!(opts_arg[i].opt->cb(opts_arg[i].arg, opts_arg[i].opt->user_data, true)))
+    {
+        str[0] = opts_arg[i].opt->short_opt;
+        if (!(opts_arg[i].opt->cb(str, opts_arg[i].arg, opts_arg[i].opt->user_data)))
             return set_parse_error(error, -1, i, CALLBACK_ERROR);
+    }
 
     return 0;
 }

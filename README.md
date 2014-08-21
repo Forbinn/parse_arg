@@ -111,23 +111,24 @@ Example
 ```c
 void usage(char *av0)
 {
-    fprintf(stderr, "Usage: %s [-h|--help]\n", av0);
+    fprintf(stderr, "Usage: %s [-h|--help] [--useless=ARG] more_arg...\n", av0);
     fprintf(stderr, "\t-h,--help    Display this help and exit\n");
+    fprintf(stderr, "\t--useless    A long option which take an argument");
 }
 
-bool h_option(char *arg, void *user_data, bool short_arg)
+bool h_option(const char *option, const char *arg, void *user_data)
 {
     (void)arg;
-    (void)short_arg;
+    (void)option;
 
     usage(user_data);
     return true;
 }
 
-bool useless_arg(char *arg, void *user_data, bool short_arg)
+bool useless_arg(const char *option, const char *arg, void *user_data)
 {
     (void)user_data;
-    (void)short_arg;
+    (void)option;
 
     return strcmp(arg, "argument") == 0;
 }
@@ -135,9 +136,9 @@ bool useless_arg(char *arg, void *user_data, bool short_arg)
 int main(int ac, char **av)
 {
     opts options[] = {
-        {'h', "help", NO_ARG, &h_option, av[0]},
-        {'\0', "useless", REQUIRED_ARG, &useless_arg, NULL},
-        {'\0', NULL, NO_ARG, NULL, NULL}
+        {'h',   "help",     NO_ARG,         &h_option,      av[0]},
+        {'\0',  "useless",  REQUIRED_ARG,   &useless_arg,   NULL},
+        {'\0',  NULL,       NO_ARG,         NULL,           NULL}
     };
 
     if (parse_arg(&ac, &av, options, NULL) == -1)

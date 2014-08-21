@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:00:31 2014 vincent leroy
-** Last update Thu Aug 21 14:03:06 2014 vincent leroy
+** Last update Thu Aug 21 14:59:55 2014 vincent leroy
 */
 
 #include <stdlib.h>
@@ -17,44 +17,38 @@
 
 void usage(const char *av0)
 {
-    fprintf(stderr, "Usage: %s [-a [__argument__]] [--list __argument__] [-h|--help]\n", av0);
-    fprintf(stderr, "\t-a           A short option with an optional argument\n");
-    fprintf(stderr, "\t--list       A long option with a required argument\n");
-    fprintf(stderr, "\t-h,--help    Display this help and exit\n");
+    fprintf(stderr, "Usage: %s [-h|--help] [-a|--all] [-A|--allmost-all] [--author] [-b|--escape] [--block-size SIZE] [-c] [--color [COLOR]] [-I|--ignore ARG] [-l] other_arg...\n", av0);
+    fprintf(stderr, "\t-h, --help\n");
+    fprintf(stderr, "\t-a, --all\n");
+    fprintf(stderr, "\t-A, --allmost-all\n");
+    fprintf(stderr, "\t--author\n");
+    fprintf(stderr, "\t-b, --escape\n");
+    fprintf(stderr, "\t--block-size=SIZE\n");
+    fprintf(stderr, "\t-c\n");
+    fprintf(stderr, "\t--color[=COLOR]\n");
+    fprintf(stderr, "\t-I, --ignore=ARG\n");
+    fprintf(stderr, "\t-l\n");
 
     exit(EX_USAGE);
 }
 
-static bool _h_arg(const char *arg, void *user_data, bool short_arg)
+static bool _h_cb(const char *option, const char *arg, void *user_data)
 {
     (void)arg;
 
-    printf("'%s' option\n", short_arg ? "h" : "help");
+    printf("'%s' option\n", option);
 
     usage(user_data);
-    return true;
+    return false;
 }
 
-static bool _a_arg(const char *arg, void *user_data, bool short_arg)
+static bool _option_cb(const char *option, const char *arg, void *user_data)
 {
     (void)user_data;
-    (void)short_arg;
 
-    printf("'a' option");
-    if (arg != NULL)
+    printf("'%s' option", option);
+    if (arg)
         printf(" with argument '%s'", arg);
-    printf("\n");
-
-    return true;
-}
-
-static bool _l_arg(const char *arg, void *user_data, bool short_arg)
-{
-    (void)user_data;
-    (void)short_arg;
-
-    printf("'list' option");
-    printf(" with argument '%s'", arg);
     printf("\n");
 
     return true;
@@ -64,10 +58,17 @@ int scan_arg(int *ac, char ***av)
 {
     opt_error error;
     opts options[] = {
-        {'h', "help", NO_ARG, &_h_arg, (*av)[0]},
-        {'a', NULL, OPTIONAL_ARG, &_a_arg, NULL},
-        {'\0', "list", REQUIRED_ARG, &_l_arg, NULL},
-        {'\0', NULL, NO_ARG, NULL, NULL}
+        {'h',   "help",         NO_ARG,         &_h_cb,         (*av)[0]},
+        {'a',   "all",          NO_ARG,         &_option_cb,    NULL},
+        {'A',   "allmost-all",  NO_ARG,         &_option_cb,    NULL},
+        {'\0',  "author",       NO_ARG,         &_option_cb,    NULL},
+        {'b',   "escape",       NO_ARG,         &_option_cb,    NULL},
+        {'\0',  "block-size",   REQUIRED_ARG,   &_option_cb,    NULL},
+        {'c',   NULL,           NO_ARG,         &_option_cb,    NULL},
+        {'\0',  "color",        OPTIONAL_ARG,   &_option_cb,    NULL},
+        {'I',   "ignore",       REQUIRED_ARG,   &_option_cb,    NULL},
+        {'l',   NULL,           NO_ARG,         &_option_cb,    NULL},
+        {'\0',  NULL,           NO_ARG,         NULL,           NULL}
     };
 
     if (parse_arg(ac, av, options, &error) == -1)
