@@ -71,17 +71,15 @@ opts options[] = {
 };
 
 // [1] -a -d arg -c
-// [2] -adc arg
-// [3] -bc arg
-// [4] -cb arg
-// [5] -dcb arg
+// [2] -bc arg
+// [3] -cb arg
+// [4] -dcb arg
 ```
 
 >- **[1]**: In this case the calling order of the callback is guaranteed: *a_option* then *d_option* and *c_option*.
->- **[2]**: In this case the calling order of the callback is **not** guaranteed.
->- **[3]**: The argument *arg* will be give to the *c_option* callback.
->- **[4]**: The argument *arg* will be give to the *b_option* callback.
->- **[5]**: The argument *arg* will be give to the *d_option* callback and not to *b_option* because the *d* option **required** an argument.
+>- **[2]**: The argument *arg* will be give to the *c_option* callback.
+>- **[3]**: The argument *arg* will be give to the *b_option* callback.
+>- **[4]**: The argument *arg* will be give to the *d_option* callback and not to *b_option* because the *d* option **required** an argument.
 
 Error system
 ------------

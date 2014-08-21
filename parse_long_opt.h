@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:58:47 2014 vincent leroy
-** Last update Tue Aug 19 13:08:05 2014 vincent leroy
+** Last update Thu Aug 21 14:04:58 2014 vincent leroy
 */
 
 #ifndef PARSE_LONG_OPT_H_
@@ -22,6 +22,6 @@
 
 #include "parse_arg.h"
 
-int parse_long_opt(const char *long_opt, char **next_opt, const opts options[], opt_error *error);
+int parse_long_opt(const char *long_opt, const char *next_opt[], const opts options[], opt_error *error);
 
 #endif /* !PARSE_LONG_OPT_H_ */

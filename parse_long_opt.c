@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:58:38 2014 vincent leroy
-** Last update Tue Aug 19 14:15:02 2014 vincent leroy
+** Last update Thu Aug 21 14:06:24 2014 vincent leroy
 */
 
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 
 #include "parse_long_opt.h"
 
-static int _get_opts_idx_for_opt(char *long_opt, const opts options[])
+static int _get_opts_idx_for_opt(const char *long_opt, const opts options[])
 {
     int i;
 
@@ -24,7 +24,7 @@ static int _get_opts_idx_for_opt(char *long_opt, const opts options[])
     return -1;
 }
 
-static int _split_opt_and_arg(const char *long_opt, char **next_opt, char **result_opt, char **result_arg)
+static int _split_opt_and_arg(const char *long_opt, const char *next_opt[], const char **result_opt, const char **result_arg)
 {
     int nb_arg_parsed = 1;
     char *equal_pos = strchr(long_opt, '=');
@@ -61,7 +61,7 @@ static int _split_opt_and_arg(const char *long_opt, char **next_opt, char **resu
     return nb_arg_parsed;
 }
 
-static int _call_cb(char *arg, const opts *opt, opt_error *error)
+static int _call_cb(const char *arg, const opts *opt, opt_error *error)
 {
     int nb_arg_used = 1;
 
@@ -88,10 +88,10 @@ static int _call_cb(char *arg, const opts *opt, opt_error *error)
     return nb_arg_used;
 }
 
-int parse_long_opt(const char *long_opt, char **next_opt, const opts options[], opt_error *error)
+int parse_long_opt(const char *long_opt, const char *next_opt[], const opts options[], opt_error *error)
 {
-    char *real_opt;
-    char *real_arg;
+    const char *real_opt;
+    const char *real_arg;
     int nb_arg_parsed;
 
     nb_arg_parsed = _split_opt_and_arg(long_opt, next_opt, &real_opt, &real_arg);
@@ -109,8 +109,8 @@ int parse_long_opt(const char *long_opt, char **next_opt, const opts options[], 
     else
         nb_arg_parsed = -1;
 
-    free(real_opt);
-    free(real_arg);
+    free((void*)real_opt);
+    free((void*)real_arg);
 
     return nb_arg_parsed;
 }

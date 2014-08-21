@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:50:39 2014 vincent leroy
-** Last update Tue Aug 19 12:10:32 2014 vincent leroy
+** Last update Thu Aug 21 14:00:41 2014 vincent leroy
 */
 
 #ifndef PARSE_SHORT_OPT_H_
@@ -53,18 +53,12 @@
 
 #include "parse_arg.h"
 
-struct opts_idx
+struct opts_arg
 {
     const opts  *opt;
-    int         char_idx;
+    const char  *arg;
 };
 
-struct opts_tab
-{
-    struct opts_idx *opts;
-    int             size_opts;
-};
-
-int parse_short_opt(const char *short_opt, char **next_opt, const opts options[], opt_error *error);
+int parse_short_opt(const char *short_opt, const char **next_opt, const opts options[], opt_error *error);
 
 #endif /* !PARSE_SHORT_OPT_H_ */

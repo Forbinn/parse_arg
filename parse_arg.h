@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:24:49 2014 vincent leroy
-** Last update Tue Aug 19 12:10:20 2014 vincent leroy
+** Last update Thu Aug 21 14:02:08 2014 vincent leroy
 */
 
 #ifndef PARSE_ARG_H_
@@ -15,7 +15,7 @@
 
 #include "parse_error.h"
 
-typedef bool (*arg_callback)(char*, void*, bool);
+typedef bool (*arg_callback)(const char*, void*, bool);
 
 typedef enum argument
 {

@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:24:44 2014 vincent leroy
-** Last update Tue Aug 19 14:05:29 2014 vincent leroy
+** Last update Thu Aug 21 14:03:39 2014 vincent leroy
 */
 
 #include <stdlib.h>
@@ -31,12 +31,12 @@ static void _remove_option_in_av(int *ac, char ***av, int *idx_in_av_for_remove,
     }
 }
 
-int _do_parse(char **argv, int i, int off, const opts options[], opt_error *error, int *idx_in_av_for_remove, int *idx_in_tab, int (*parse_func)(const char*, char**, const opts[], opt_error*))
+int _do_parse(char **argv, int i, int off, const opts options[], opt_error *error, int *idx_in_av_for_remove, int *idx_in_tab, int (*parse_func)(const char*, const char*[], const opts[], opt_error*))
 {
     int nb_arg_parsed;
     int j;
 
-    nb_arg_parsed = (*parse_func)(argv[i] + off, argv + i + 1, options, error);
+    nb_arg_parsed = (*parse_func)(argv[i] + off, (const char**)argv + i + 1, options, error);
     if (nb_arg_parsed == -1)
     {
         free(idx_in_av_for_remove);

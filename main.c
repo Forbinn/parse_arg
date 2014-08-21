@@ -5,9 +5,10 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:00:31 2014 vincent leroy
-** Last update Tue Aug 19 15:58:58 2014 vincent leroy
+** Last update Thu Aug 21 14:03:06 2014 vincent leroy
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <sysexits.h>
 //#include <error.h>
@@ -24,7 +25,7 @@ void usage(const char *av0)
     exit(EX_USAGE);
 }
 
-static bool _h_arg(char *arg, void *user_data, bool short_arg)
+static bool _h_arg(const char *arg, void *user_data, bool short_arg)
 {
     (void)arg;
 
@@ -34,27 +35,26 @@ static bool _h_arg(char *arg, void *user_data, bool short_arg)
     return true;
 }
 
-static bool _a_arg(char *arg, void *user_data, bool short_arg)
+static bool _a_arg(const char *arg, void *user_data, bool short_arg)
 {
     (void)user_data;
     (void)short_arg;
 
     printf("'a' option");
     if (arg != NULL)
-        printf(" with option '%s'", arg);
+        printf(" with argument '%s'", arg);
     printf("\n");
 
     return true;
 }
 
-static bool _l_arg(char *arg, void *user_data, bool short_arg)
+static bool _l_arg(const char *arg, void *user_data, bool short_arg)
 {
     (void)user_data;
     (void)short_arg;
 
     printf("'list' option");
-    if (arg != NULL)
-        printf(" with option '%s'", arg);
+    printf(" with argument '%s'", arg);
     printf("\n");
 
     return true;
