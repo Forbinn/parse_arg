@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:50:33 2014 vincent leroy
-** Last update Mon Mar 30 22:48:40 2015 vincent leroy
+** Last update Mon Mar 30 23:04:08 2015 vincent leroy
 */
 
 #include <string.h>
@@ -92,7 +92,7 @@ static int _give_arg_to_opts_arg(const char *arg, struct opts_arg opts_arg[], op
         }
     }
 
-    return 0;
+    return (arg_already_used_by_required || arg_already_used) ? 1 : 0;
 }
 
 static int _call_cb(const struct opts_arg opts_arg[], opt_error *error)
@@ -119,7 +119,11 @@ int parse_short_opt(const char *short_opt, const char *next_opt[], const opts op
 
     if ((return_value = _short_opt_to_opts_arg(short_opt, options, opts_arg, error)) != -1)
         if ((return_value = _give_arg_to_opts_arg(arg, opts_arg, error)) != -1)
+        {
+            if (return_value == 0) // arg is not used
+                nb_arg_used = 1; // Only the option has been parsed
             return_value = _call_cb(opts_arg, error);
+        }
 
     free(opts_arg);
     return return_value == -1 ? -1 : nb_arg_used;
