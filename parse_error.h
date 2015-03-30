@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 18:12:11 2014 vincent leroy
-** Last update Tue Aug 19 13:21:55 2014 vincent leroy
+** Last update Mon Mar 30 22:49:01 2015 vincent leroy
 */
 
 #ifndef PARSE_ERROR_H_
@@ -31,7 +31,7 @@ typedef struct opt_error
 
 #define DONT_CHANGE_ERROR_TYPE   NO_ERROR
 
-int set_parse_error(opt_error *error, int argv_idx, int idx, error_type err_type);
+int set_parse_error(opt_error *error, int argv_idx, int idx, error_type err_type, int short_arg);
 void clear_parse_error(opt_error *error);
 
 #endif /* !PARSE_ERROR_H_ */

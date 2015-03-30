@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:50:33 2014 vincent leroy
-** Last update Thu Aug 21 15:00:55 2014 vincent leroy
+** Last update Mon Mar 30 22:48:40 2015 vincent leroy
 */
 
 #include <string.h>
@@ -53,7 +53,7 @@ static int _short_opt_to_opts_arg(const char *short_opt, const opts options[], s
     {
         idx = _get_opts_idx_for_opt(short_opt[i], options);
         if (idx == -1)
-            return set_parse_error(error, -1, i, UNKNOWN_OPT);
+            return set_parse_error(error, -1, i, UNKNOWN_OPT, -1);
 
         opts_arg[i].opt = &options[idx];
     }
@@ -73,7 +73,7 @@ static int _give_arg_to_opts_arg(const char *arg, struct opts_arg opts_arg[], op
         if (opts_arg[i].opt->has_arg == REQUIRED_ARG)
         {
             if (arg == NULL || arg_already_used_by_required)
-                return set_parse_error(error, -1, i, ARG_NOT_PROVIDE);
+                return set_parse_error(error, -1, i, ARG_NOT_PROVIDE, -1);
             else if (arg_already_used) // arg is used by an optional argument
                 opts_arg[save_i].arg = NULL; // remove it
 
@@ -104,7 +104,7 @@ static int _call_cb(const struct opts_arg opts_arg[], opt_error *error)
     {
         str[0] = opts_arg[i].opt->short_opt;
         if (!(opts_arg[i].opt->cb(str, opts_arg[i].arg, opts_arg[i].opt->user_data)))
-            return set_parse_error(error, -1, i, CALLBACK_ERROR);
+            return set_parse_error(error, -1, i, CALLBACK_ERROR, -1);
     }
 
     return 0;

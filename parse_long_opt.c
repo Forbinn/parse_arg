@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:58:38 2014 vincent leroy
-** Last update Thu Aug 21 14:51:51 2014 vincent leroy
+** Last update Mon Mar 30 22:48:07 2015 vincent leroy
 */
 
 #include <stdlib.h>
@@ -69,18 +69,18 @@ static int _call_cb(const char *arg, const opts *opt, opt_error *error)
     {
         case NO_ARG:
             if (!opt->cb(opt->long_opt, NULL, opt->user_data))
-                return set_parse_error(error, -1, 0, CALLBACK_ERROR);
+                return set_parse_error(error, -1, 0, CALLBACK_ERROR, -1);
             break;
         case OPTIONAL_ARG:
             if (!opt->cb(opt->long_opt, arg, opt->user_data))
-                return set_parse_error(error, -1, 0, CALLBACK_ERROR);
+                return set_parse_error(error, -1, 0, CALLBACK_ERROR, -1);
             nb_arg_used += arg != NULL ? 1 : 0;
             break;
         case REQUIRED_ARG:
             if (arg == NULL)
-                return set_parse_error(error, -1, 0, ARG_NOT_PROVIDE);
+                return set_parse_error(error, -1, 0, ARG_NOT_PROVIDE, -1);
             if (!opt->cb(opt->long_opt, arg, opt->user_data))
-                return set_parse_error(error, -1, 0, CALLBACK_ERROR);
+                return set_parse_error(error, -1, 0, CALLBACK_ERROR, -1);
             ++nb_arg_used;
             break;
     }
@@ -100,7 +100,7 @@ int parse_long_opt(const char *long_opt, const char *next_opt[], const opts opti
 
     int idx = _get_opts_idx_for_opt(real_opt, options);
     if (idx == -1)
-        nb_arg_parsed = set_parse_error(error, -1, 0, UNKNOWN_OPT);
+        nb_arg_parsed = set_parse_error(error, -1, 0, UNKNOWN_OPT, -1);
     else if (_call_cb(real_arg, &options[idx], error) != -1)
     {
         if (options[idx].has_arg == NO_ARG && nb_arg_parsed > 1)

@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:24:44 2014 vincent leroy
-** Last update Thu Aug 21 14:03:39 2014 vincent leroy
+** Last update Mon Mar 30 22:47:45 2015 vincent leroy
 */
 
 #include <stdlib.h>
@@ -40,7 +40,7 @@ int _do_parse(char **argv, int i, int off, const opts options[], opt_error *erro
     if (nb_arg_parsed == -1)
     {
         free(idx_in_av_for_remove);
-        return set_parse_error(error, i, error ? error->idx + off : -1, DONT_CHANGE_ERROR_TYPE);
+        return set_parse_error(error, i, error ? error->idx + off : -1, DONT_CHANGE_ERROR_TYPE, -1);
     }
 
     for (j = 0; j < nb_arg_parsed; ++j)
@@ -67,7 +67,7 @@ int parse_arg(int *ac, char ***av, const opts options[], opt_error *error)
     {
         if (argv[i][0] == '-' && argv[i][1] != '-' && argv[i][1] != '\0')
         {
-            error->is_short_arg = true;
+            set_parse_error(error, -1, -1, DONT_CHANGE_ERROR_TYPE, 1);
             nb_arg_parsed = _do_parse(argv, i, 1, options, error, idx_in_av_for_remove, &idx_in_tab, &parse_short_opt);
             if (nb_arg_parsed == -1)
                 return -1;
@@ -80,7 +80,7 @@ int parse_arg(int *ac, char ***av, const opts options[], opt_error *error)
                 continue;
             }
 
-            error->is_short_arg = false;
+            set_parse_error(error, -1, -1, DONT_CHANGE_ERROR_TYPE, 0);
             nb_arg_parsed = _do_parse(argv, i, 2, options, error, idx_in_av_for_remove, &idx_in_tab, &parse_long_opt);
             if (nb_arg_parsed == -1)
                 return -1;
