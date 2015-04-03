@@ -1,8 +1,8 @@
 parse_arg
 =========
 
-Library to facilitate parsing of arguments passed to main.
-This library contains only **one** function: 
+Library to facilitate parsing of arguments passed the main function.
+This library contains only **one** function:
 
 ```c
 int parse_arg(int *ac, char ***av, const opts options[], opt_error *error);
@@ -23,13 +23,13 @@ After the parsing you will have in the **ac** argument the value 4 and in the **
 opts structure
 --------------
 
-The *opts* structure is used to describe the parameters expected by the program.
+The *opts* structure is used to describe the parameters expected by the program.<br>
 It has the following field:
 
 - **short_opt** : contains the value of the short form of the option (e.g. 'h' for help option).
 - **long_opt** : contains the value of the long form of the option (e.g. 'help' for help option).
 - **has_arg** : enumeration that contains one of the three value describe after.
-- **cb** : function call when the option was found in the main parameter.
+- **cb** : function call when the option is found in the main parameter.
 - **user_data** : user data pass to the callback.
 
 argument enumeration
@@ -55,9 +55,9 @@ bool callback(const char *option, const char *arg, void *user_data);
 
 If the callback return false then the parsing stop and the error is set to **CALLBACK_ERROR**.
 
-The first parameter (i.e. *option*) is set to the option that triggered the call of the callback
-The second parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.
-The third parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.
+The first parameter (i.e. *option*) is set to the option that triggered the call of the callback.<br>
+The second parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.<br>
+The third parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.<br>
 
 The *option* parameter is only valid during the call of the callback i.e. If you want to keep its value after the return of the callback you need to call a function like **strdup**.
 
@@ -86,7 +86,7 @@ opts options[] = {
 Error system
 ------------
 
-If an error occur during the parsing, the **parse_arg** function will return -1 and the **error** parameter (If it is non-NULL) will describe the error.
+If an error occur during the parsing, the **parse_arg** function will return -1 and the **error** parameter (If it is non-NULL) will describe the error.<br>
 The *opt_error* structure contains several field that serve to describe and localized the error:
 
 - **argv_idx** : contains an index in the *argv* array where the error occured.
@@ -97,7 +97,7 @@ The *opt_error* structure contains several field that serve to describe and loca
 error_type enumeration
 ----------------------
 
-The *error_type* enumeration is used to describe to type of error that occured.
+The *error_type* enumeration is used to describe to type of error that occured.<br>
 It has the follwing value:
 
 | Enum value      | Decimal value |                                                                Description |
