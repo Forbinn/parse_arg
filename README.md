@@ -59,6 +59,8 @@ The first parameter (i.e. *option*) is set to the option that triggered the call
 The second parameter (i.e. *arg*) is set to the argument of the option following the rules describe by the *argument* enumeration.
 The third parameter (i.e. *user_data*) is set to the value of the **user_data** field in the *opts* structure.
 
+The *option* parameter is only valid during the call of the callback i.e. If you want to keep its value after the return of the callback you need to call a function like **strdup**.
+
 ### Warning ###
 
 ```c
