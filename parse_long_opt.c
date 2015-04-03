@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 19:58:38 2014 vincent leroy
-** Last update Mon Mar 30 22:48:07 2015 vincent leroy
+** Last update Fri Apr 03 01:33:51 2015 vincent leroy
 */
 
 #include <stdlib.h>
@@ -32,7 +32,7 @@ static int _split_opt_and_arg(const char *long_opt, const char *next_opt[], cons
     if (equal_pos != NULL)
     {
         *result_opt = strndup(long_opt, equal_pos - long_opt);
-        *result_arg = strdup(equal_pos + 1);
+        *result_arg = equal_pos + 1;
     }
     else
     {
@@ -47,14 +47,14 @@ static int _split_opt_and_arg(const char *long_opt, const char *next_opt[], cons
                 if (next_opt[1] != NULL)
                 {
                     ++nb_arg_parsed;
-                    *result_arg = strdup(next_opt[1]);
+                    *result_arg = next_opt[1];
                 }
             }
         }
         else if (next_opt[0] != NULL)
         {
             ++nb_arg_parsed;
-            *result_arg = strdup(next_opt[0]);
+            *result_arg = next_opt[0];
         }
     }
 
@@ -110,7 +110,6 @@ int parse_long_opt(const char *long_opt, const char *next_opt[], const opts opti
         nb_arg_parsed = -1;
 
     free((void*)real_opt);
-    free((void*)real_arg);
 
     return nb_arg_parsed;
 }
