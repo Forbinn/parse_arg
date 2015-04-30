@@ -1,7 +1,7 @@
 parse_arg
 =========
 
-Library to facilitate parsing of arguments passed the main function.
+Library to facilitate parsing of arguments passed to the main function.
 This library contains only **one** function:
 
 ```c
@@ -76,17 +76,19 @@ opts options[] = {
 // [2] -bc arg
 // [3] -cb arg
 // [4] -dcb arg
+// [5] -d -- -arg
 ```
 
->- **[1]**: In this case the calling order of the callback is guaranteed: *a_option* then *d_option* and *c_option*.
->- **[2]**: The argument *arg* will be give to the *c_option* callback.
->- **[3]**: The argument *arg* will be give to the *b_option* callback.
->- **[4]**: The argument *arg* will be give to the *d_option* callback and not to *b_option* because the *d* option **required** an argument.
+- **[1]**: In this case the calling order of the callback is guaranteed: *a_option* then *d_option* and *c_option*.
+- **[2]**: The argument *arg* will be given to the *c_option* callback.
+- **[3]**: The argument *arg* will be given to the *b_option* callback.
+- **[4]**: The argument *arg* will be given to the *d_option* callback and not to *b_option* because the *d* option **required** an argument.
+- **[5]**: The argument *-arg* will be given to the *d_option* callback even if the argument start with a *-*.
 
 Error system
 ------------
 
-If an error occur during the parsing, the **parse_arg** function will return -1 and the **error** parameter (If it is non-NULL) will describe the error.<br>
+If an error occur during the parsing the **parse_arg** function will return -1 and the **error** parameter (If it is non-NULL) will describe the error.<br>
 The *opt_error* structure contains several field that serve to describe and localized the error:
 
 - **argv_idx** : contains an index in the *argv* array where the error occured.
@@ -94,18 +96,23 @@ The *opt_error* structure contains several field that serve to describe and loca
 - **is_short_arg** : is **true** if the wrong parameter was a short parameter.
 - **err_type** : enumeration that contains one of the four value describe after.
 
+In the case of the **INVALID_ARG** error the *argv_idx* field is not used.<br>
+The *idx* field is used to localised the error in the *options* array.<br>
+The *is_short_arg* tell if the duplicated argument is a short or a long argument in the *options* array.
+
 error_type enumeration
 ----------------------
 
 The *error_type* enumeration is used to describe to type of error that occured.<br>
 It has the follwing value:
 
-| Enum value      | Decimal value |                                                                Description |
-| :-------------- | -------------:| -------------------------------------------------------------------------: |
-| NO_ERROR        |             0 | No error has occured                                                       |
-| UNKNOWN_OPT     |             1 | The argument is not known                                                  |
+| Enum value      | Decimal value |                                                                Description       |
+| :-------------- | -------------:| -------------------------------------------------------------------------------: |
+| NO_ERROR        |             0 | No error has occured                                                             |
+| UNKNOWN_OPT     |             1 | The argument is not known                                                        |
 | ARG_NOT_PROVIDE |             2 | If the **has_arg** field is equal to **REQUIRED_ARG** and no argument is provide |
-| CALLBACK_ERROR  |             3 | The callback has return **false**                                          |
+| CALLBACK_ERROR  |             3 | The callback has return **false**                                                |
+| INVALID_ARG     |             4 | The opts structure contains duplicate arguments                                  |
 
 Example
 =======

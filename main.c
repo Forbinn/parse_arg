@@ -5,7 +5,7 @@
 ** Login  <leroy_v@epitech.eu>
 **
 ** Started on  Mon Aug 18 14:00:31 2014 vincent leroy
-** Last update Thu Aug 21 14:59:55 2014 vincent leroy
+** Last update Thu Apr 30 15:21:18 2015 vincent leroy
 */
 
 #include <stdlib.h>
@@ -93,6 +93,12 @@ int scan_arg(int *ac, char ***av)
                 else
                     fprintf(stderr, "Callback error for option: '%s'\n", (*av)[error.argv_idx] + error.idx);
                 break;
+            case INVALID_ARG:
+                fprintf(stderr, "Error: duplicated %s argument at index %d", error.is_short_arg ? "short" : "long", error.idx);
+                if (error.is_short_arg)
+                    fprintf(stderr, " (%c)\n", options[error.idx].short_opt);
+                else
+                    fprintf(stderr, " (%s)\n", options[error.idx].long_opt);
             default:
                 break;
         }
